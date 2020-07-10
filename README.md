@@ -1,4 +1,4 @@
-# workpool - allow to create a workpool that accept differents types of tasks
+# Workpool - Allow to create a pool of differents types of tasks and execute it concurrently
 
 This workpool is simple to use and allow you creat differents type of taks and execute all of then in the same. To do that you need to creat tasks sctucts the is compatible with ITask interface.
 
