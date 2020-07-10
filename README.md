@@ -55,26 +55,23 @@ func (t *MyTask) GetID() string {
 func main() {
 
 	//number of task will be executed in the same time
-	concurrency := 20
+	concurrency := 3
 
 	pool := wp.NewPool(concurrency)
-	for i := 1; i <= 10; i++ {
+	for i := 1; i <= 20; i++ {
 		//create a task
 		task := &MyTask{ID: "TASK" + strconv.Itoa(i)}
 		//add task in the pool
 		pool.AddTask(task)
 	}
-	pool.Run()
+	pool.Exec()
 
-	var numErrors int
 	for _, task := range pool.Tasks {
 		if task.GetError() != nil {
 			fmt.Printf("%v", task.GetError())
-			numErrors++
 		}
 	}
 }
-
 
 ```
 
@@ -156,10 +153,10 @@ func (t *MyTaskTypeTwo) GetID() string {
 func main() {
 
 	//number of task will be executed in the same time
-	concurrency := 20
+	concurrency := 4
 
 	pool := wp.NewPool(concurrency)
-	for i := 1; i <= 10; i++ {
+	for i := 1; i <= 50; i++ {
 		//create a task
 		task := &MyTaskTypeOne{ID: "TASK_TYPE_ONE_" + strconv.Itoa(i)}
 		//add task in the pool
@@ -171,15 +168,14 @@ func main() {
 		//add task in the pool
 		pool.AddTask(task)
 	}
-	pool.Run()
+	pool.Exec()
 
-	var numErrors int
 	for _, task := range pool.Tasks {
 		if task.GetError() != nil {
 			fmt.Printf("%v", task.GetError())
-			numErrors++
 		}
 	}
 }
+
 
 ```

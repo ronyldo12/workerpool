@@ -73,10 +73,10 @@ func (t *MyTaskTypeTwo) GetID() string {
 func main() {
 
 	//number of task will be executed in the same time
-	concurrency := 20
+	concurrency := 4
 
 	pool := wp.NewPool(concurrency)
-	for i := 1; i <= 10; i++ {
+	for i := 1; i <= 50; i++ {
 		//create a task
 		task := &MyTaskTypeOne{ID: "TASK_TYPE_ONE_" + strconv.Itoa(i)}
 		//add task in the pool
