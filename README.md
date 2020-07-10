@@ -1,6 +1,12 @@
 # workpool - allow to create a workpool that accept differents types of tasks
 
-This workpool is simple to use and allow you creata differents type of taks and execute all of then in the same workpool. To do that you need to creat tasks sctucts the is compatible with ITask interface
+This workpool is simple to use and allow you creat differents type of taks and execute all of then in the same. To do that you need to creat tasks sctucts the is compatible with ITask interface.
+
+Also, you can set the concurrency. It mean that you can configure how many tasks are executed in the same time.
+
+## How it work?
+
+The pool will create workers and when all of workers are busy another tasks will wait. When some worker became idle, it will receive the task and execute until all tasks be executed.
 
 ## Installation
 To install this package, you need to setup your Go workspace.  The simplest way to install the library is to run:
