@@ -25,7 +25,7 @@ import (
 	"sync"
 	"time"
 
-	wp "github.com/ronyldo12/workpool"
+	wp "github.com/ronyldo12/workerpool"
 )
 
 //MyTask task example
@@ -93,7 +93,7 @@ import (
 	"sync"
 	"time"
 
-	wp "github.com/ronyldo12/workpool"
+	wp "github.com/ronyldo12/workerpool"
 )
 
 //MyTaskTypeOne task example
