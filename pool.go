@@ -4,8 +4,7 @@ import (
 	"sync"
 )
 
-// Pool is a worker group that runs a number of tasks at a
-// configured concurrency.
+// Pool a worker group
 type Pool struct {
 	Tasks []ITask
 
@@ -19,9 +18,7 @@ func (p *Pool) AddTask(t ITask) {
 	p.Tasks = append(p.Tasks, t)
 }
 
-// NewPool initializes a new pool with the given tasks and
-// at the given concurrency.
-// concurrency is the quantity of task will be executed in the same time
+// NewPool create a new pool
 func NewPool(concurrency int) *Pool {
 	return &Pool{
 		concurrency: concurrency,
@@ -29,27 +26,31 @@ func NewPool(concurrency int) *Pool {
 	}
 }
 
-// Exec runs all work within the pool and blocks until it's
-// finished.
+// Exec create works and execute all tasks on the workers and wait all of tasks finish
 func (p *Pool) Exec() {
 	for i := 0; i < p.concurrency; i++ {
+		//creating workers to receive and execute the tasks
 		go p.work()
 	}
 
 	p.wg.Add(len(p.Tasks))
 	for _, task := range p.Tasks {
+		//tasks are added in the channel.
+		//workers are listening this channel and when a worker is idle
+		//it will receive the task to execute
 		p.queueTasks <- task
 	}
 
-	// all workers return
+	// close the channel when all task was executed
 	close(p.queueTasks)
 
 	p.wg.Wait()
 }
 
-// The work loop for any single goroutine.
+// The worker execute tasks from the channel
 func (p *Pool) work() {
 	for task := range p.queueTasks {
+		//when the work is idle it receive a new task from the channel
 		task.DoWork(&p.wg)
 	}
 }
