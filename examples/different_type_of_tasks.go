@@ -76,18 +76,24 @@ func main() {
 	concurrency := 4
 
 	pool := wp.NewPool(concurrency)
+
+	//add tasks typed MyTaskTypeOne
 	for i := 1; i <= 50; i++ {
 		//create a task
 		task := &MyTaskTypeOne{ID: "TASK_TYPE_ONE_" + strconv.Itoa(i)}
 		//add task in the pool
 		pool.AddTask(task)
 	}
+
+	//add tasks typed MyTaskTypeTwo
 	for i := 1; i <= 5; i++ {
 		//create a task
 		task := &MyTaskTypeTwo{ID: "TASK_TYPE_TWO_" + strconv.Itoa(i)}
 		//add task in the pool
 		pool.AddTask(task)
 	}
+
+	//exec MyTaskTypeOne and MyTaskTypeTwo together
 	pool.Exec()
 
 	for _, task := range pool.Tasks {
