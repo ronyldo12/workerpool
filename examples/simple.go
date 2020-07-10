@@ -52,13 +52,11 @@ func main() {
 		//add task in the pool
 		pool.AddTask(task)
 	}
-	pool.Run()
+	pool.Exec()
 
-	var numErrors int
 	for _, task := range pool.Tasks {
 		if task.GetError() != nil {
 			fmt.Printf("%v", task.GetError())
-			numErrors++
 		}
 	}
 }

@@ -29,9 +29,9 @@ func NewPool(concurrency int) *Pool {
 	}
 }
 
-// Run runs all work within the pool and blocks until it's
+// Exec runs all work within the pool and blocks until it's
 // finished.
-func (p *Pool) Run() {
+func (p *Pool) Exec() {
 	for i := 0; i < p.concurrency; i++ {
 		go p.work()
 	}
