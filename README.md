@@ -22,7 +22,6 @@ import (
 	"fmt"
 	"math/rand"
 	"strconv"
-	"sync"
 	"time"
 
 	wp "github.com/ronyldo12/workerpool"
@@ -30,13 +29,13 @@ import (
 
 //MyTask task example
 type MyTask struct {
-	Err error
-	ID  string
+	Entity interface{}
+	Err    error
+	ID     string
 }
 
 //DoWork this func will be called by pool do exec the job task
-//it's very very import do call wg.Done() when job task end
-func (t *MyTask) DoWork(wg *sync.WaitGroup) {
+func (t *MyTask) DoWork() {
 	fmt.Printf("Start execution: %s \n", t.ID)
 	secondDuration := rand.Intn(5)
 	if secondDuration > 4 {
@@ -45,7 +44,6 @@ func (t *MyTask) DoWork(wg *sync.WaitGroup) {
 
 	time.Sleep(time.Second * time.Duration(secondDuration))
 	fmt.Printf("=> End execution: %s \n", t.ID)
-	wg.Done()
 }
 
 //GetError if some erro happen during the task execution you can return here
@@ -56,6 +54,11 @@ func (t *MyTask) GetError() error {
 //GetID return id of task
 func (t *MyTask) GetID() string {
 	return t.ID
+}
+
+//GetEntity task entity
+func (t *MyTask) GetEntity() interface{} {
+	return t.Entity
 }
 
 func main() {
@@ -81,16 +84,25 @@ func main() {
 
 ```
 
+## Example - Entity conversion
+You can use a func like this to covert task Entity in yout type of Entity
+```go
+//GetEntityFromTask return MyEntity from task
+func GetEntityFromTask(t wp.ITask) MyEntity {
+	entity := t.GetEntity()
+	return entity.(MyEntity)
+}
+```
 
 ## Example Two - Different type of tasks running in the same pool
 ```go
+
 package main
 
 import (
 	"fmt"
 	"math/rand"
 	"strconv"
-	"sync"
 	"time"
 
 	wp "github.com/ronyldo12/workerpool"
@@ -98,13 +110,13 @@ import (
 
 //MyTaskTypeOne task example
 type MyTaskTypeOne struct {
-	Err error
-	ID  string
+	Entity interface{}
+	Err    error
+	ID     string
 }
 
 //DoWork this func will be called by pool do exec the job task
-//it's very very import do call wg.Done() when job task end
-func (t *MyTaskTypeOne) DoWork(wg *sync.WaitGroup) {
+func (t *MyTaskTypeOne) DoWork() {
 	fmt.Printf("Start execution: %s \n", t.ID)
 	secondDuration := rand.Intn(5)
 	if secondDuration > 4 {
@@ -113,7 +125,6 @@ func (t *MyTaskTypeOne) DoWork(wg *sync.WaitGroup) {
 
 	time.Sleep(time.Second * time.Duration(secondDuration))
 	fmt.Printf("=> End execution: %s \n", t.ID)
-	wg.Done()
 }
 
 //GetError if some erro happen during the task execution you can return here
@@ -126,15 +137,21 @@ func (t *MyTaskTypeOne) GetID() string {
 	return t.ID
 }
 
+//GetEntity task entity
+func (t *MyTaskTypeOne) GetEntity() interface{} {
+	return t.Entity
+}
+
 //MyTaskTypeTwo task example
 type MyTaskTypeTwo struct {
-	Err error
-	ID  string
+	Entity interface{}
+	Err    error
+	ID     string
 }
 
 //DoWork this func will be called by pool do exec the job task
 //it's very very import do call wg.Done() when job task end
-func (t *MyTaskTypeTwo) DoWork(wg *sync.WaitGroup) {
+func (t *MyTaskTypeTwo) DoWork() {
 	fmt.Printf("Start execution task type two: %s \n", t.ID)
 	secondDuration := rand.Intn(5)
 	if secondDuration > 4 {
@@ -143,7 +160,6 @@ func (t *MyTaskTypeTwo) DoWork(wg *sync.WaitGroup) {
 
 	time.Sleep(time.Second * time.Duration(secondDuration))
 	fmt.Printf("=> End execution task type two: %s \n", t.ID)
-	wg.Done()
 }
 
 //GetError if some erro happen during the task execution you can return here
@@ -154,6 +170,11 @@ func (t *MyTaskTypeTwo) GetError() error {
 //GetID return id of task
 func (t *MyTaskTypeTwo) GetID() string {
 	return t.ID
+}
+
+//GetEntity return id of task
+func (t *MyTaskTypeTwo) GetEntity() interface{} {
+	return t.Entity
 }
 
 func main() {
@@ -188,5 +209,6 @@ func main() {
 		}
 	}
 }
+
 
 ```

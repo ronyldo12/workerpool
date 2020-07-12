@@ -6,8 +6,7 @@ import (
 
 // Pool a worker group
 type Pool struct {
-	Tasks []ITask
-
+	Tasks       []ITask
 	concurrency int
 	queueTasks  chan ITask
 	wg          sync.WaitGroup
@@ -51,6 +50,7 @@ func (p *Pool) Exec() {
 func (p *Pool) work() {
 	for task := range p.queueTasks {
 		//when the work is idle it receive a new task from the channel
-		task.DoWork(&p.wg)
+		task.DoWork()
+		p.wg.Done()
 	}
 }
