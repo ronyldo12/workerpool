@@ -12,10 +12,10 @@ type Task interface {
 
 // Pool a worker group
 type Pool struct {
-	Tasks       []Task
-	concurrency int
-	queueTasks  chan Task
-	wg          sync.WaitGroup
+	Tasks      []Task
+	workers    int
+	queueTasks chan Task
+	wg         sync.WaitGroup
 }
 
 //AddTask add to add a new task in the pool
@@ -24,16 +24,16 @@ func (p *Pool) AddTask(t Task) {
 }
 
 // NewPool create a new pool
-func NewPool(concurrency int) *Pool {
+func NewPool(workers int) *Pool {
 	return &Pool{
-		concurrency: concurrency,
-		queueTasks:  make(chan Task),
+		workers:    workers,
+		queueTasks: make(chan Task),
 	}
 }
 
 // Exec create works and execute all tasks on the workers and wait all of tasks finish
 func (p *Pool) Exec() {
-	for i := 0; i < p.concurrency; i++ {
+	for i := 0; i < p.workers; i++ {
 		//creating workers to receive and execute the tasks
 		go p.work()
 	}
