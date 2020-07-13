@@ -1,6 +1,6 @@
 ## Workpool - A simple way to create a pool of workers that can receive differents types of tasks and execute it concurrently
 
-This is simple to use and allow you create differents type of tasks and execute all of then in the same worker pool. To do that, you need to create tasks structs that is compatible with Task interface.
+This is simple to use and allow you to create differents type of tasks and execute all of then in the same worker pool. To do that, you need to create tasks structs that is compatible with Task interface.
 
 Also, you can set how many workers will be created. It mean that you can configure how many tasks are executed in the same time.
 
