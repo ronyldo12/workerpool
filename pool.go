@@ -4,16 +4,22 @@ import (
 	"sync"
 )
 
+//Task task interface. Every task need to have these methods
+type Task interface {
+	GetError() error
+	DoWork()
+}
+
 // Pool a worker group
 type Pool struct {
-	Tasks       []ITask
+	Tasks       []Task
 	concurrency int
-	queueTasks  chan ITask
+	queueTasks  chan Task
 	wg          sync.WaitGroup
 }
 
 //AddTask add to add a new task in the pool
-func (p *Pool) AddTask(t ITask) {
+func (p *Pool) AddTask(t Task) {
 	p.Tasks = append(p.Tasks, t)
 }
 
@@ -21,7 +27,7 @@ func (p *Pool) AddTask(t ITask) {
 func NewPool(concurrency int) *Pool {
 	return &Pool{
 		concurrency: concurrency,
-		queueTasks:  make(chan ITask),
+		queueTasks:  make(chan Task),
 	}
 }
 
