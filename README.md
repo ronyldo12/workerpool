@@ -1,12 +1,13 @@
-## Workpool - A simple way to create a pool of workers that can receive differents types of tasks and execute it concurrently
+## Workpool - A simple way to create a pool of workers that can receive different types of tasks and execute them concurrently
 
-This is simple to use and allow you to create differents type of tasks and execute all of then in the same worker pool. To do that, you need to create tasks structs that is compatible with Task interface.
+This is simple to use and allow you to create different types of tasks and execute all of them in the same worker pool. To do that, you need to create task's structs that is compatible with Task interface.
 
-Also, you can set how many workers will be created. It mean that you can configure how many tasks are executed in the same time.
+Also, you can set how many workers will be created. It means that you can configure how many tasks are executed at the same time.
 
-## How it work?
 
-The pool will create workers and when all of workers are busy anothers tasks will wait it be idle. When some worker become idle, it will receive the task and execute. It will happen until all tasks be executed.
+## How it works?
+
+The pool will create workers and when all of workers are busy, other tasks will be paused until workers get free. When some worker becomes idle, it will receive the task and execute it. It will happen until all tasks are executed.
 
 ## Installation
 To install this package, you need to setup your Go workspace.  The simplest way to install the library is to run:
